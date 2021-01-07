@@ -3,15 +3,18 @@ import { Request } from 'express';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
 
-import { IsString, IsInt } from 'class-validator';
+import { IsString, IsInt, IsDefined } from 'class-validator';
 import { ValidationPipe } from './joi.validate';
 
 export class CreateCatDto {
   @IsString()
+  @IsDefined()
   name: string;
   @IsInt()
+  @IsDefined()
   age: number;
   @IsString()
+  @IsDefined()
   breed: string;
 }
 
@@ -35,7 +38,7 @@ export class CatsController {
   }
 
   @Post()
-  async create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
+  async create(@Body() createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
 }
